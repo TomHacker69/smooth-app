@@ -25,10 +25,14 @@ class PriceAmountCardItem extends StatefulWidget {
 class _PriceAmountCardItemState extends State<PriceAmountCardItem> {
   late final TextEditingController _controllerPaid;
   late final TextEditingController _controllerWithoutDiscount;
+  late final FocusNode _focusNodePaid;
+  late final FocusNode _focusNodeWithoutDiscount;
 
   @override
   void initState() {
     super.initState();
+    _focusNodePaid = FocusNode();
+    _focusNodeWithoutDiscount = FocusNode();
     final PriceAmountModel model = Provider.of<PriceModel>(
       context,
       listen: false,
@@ -107,6 +111,9 @@ class _PriceAmountCardItemState extends State<PriceAmountCardItem> {
             Expanded(
               child: PriceAmountField(
                 controller: _controllerPaid,
+                focusNode: _focusNodePaid,
+                textInputAction:
+                    model.promo ? TextInputAction.next : TextInputAction.done,
                 isPaidPrice: true,
                 model: model,
               ),
@@ -117,6 +124,8 @@ class _PriceAmountCardItemState extends State<PriceAmountCardItem> {
                   ? EMPTY_WIDGET
                   : PriceAmountField(
                       controller: _controllerWithoutDiscount,
+                      focusNode: _focusNodeWithoutDiscount,
+                      textInputAction: TextInputAction.done,
                       isPaidPrice: false,
                       model: model,
                     ),
@@ -131,6 +140,8 @@ class _PriceAmountCardItemState extends State<PriceAmountCardItem> {
   void dispose() {
     _controllerPaid.dispose();
     _controllerWithoutDiscount.dispose();
+    _focusNodePaid.dispose();
+    _focusNodeWithoutDiscount.dispose();
     super.dispose();
   }
 }

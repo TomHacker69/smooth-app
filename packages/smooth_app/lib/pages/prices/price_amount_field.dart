@@ -12,13 +12,16 @@ class PriceAmountField extends StatelessWidget {
     required this.model,
     required this.isPaidPrice,
     required this.controller,
+    this.textInputAction,
+    this.focusNode,
   });
 
   final PriceAmountModel model;
   final bool isPaidPrice;
   final TextEditingController controller;
+  final TextInputAction? textInputAction;
+  final FocusNode? focusNode;
 
-  // TODO(monsieurtanuki): TextInputAction + focus
   static const TextInputType _priceTextInputType =
       TextInputType.numberWithOptions(signed: false, decimal: true);
 
@@ -28,6 +31,8 @@ class PriceAmountField extends StatelessWidget {
     return SmoothTextFormField(
       type: TextFieldTypes.PLAIN_TEXT,
       controller: controller,
+      focusNode: focusNode,
+      textInputAction: textInputAction,
       hintText: !isPaidPrice
           ? appLocalizations.prices_amount_price_not_discounted
           : model.promo
